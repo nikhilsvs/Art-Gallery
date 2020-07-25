@@ -1,38 +1,37 @@
-.App {
-  text-align: center;
+.navbar-dark{
+  background-color:rgba(255, 68, 0, 0.712);
+  opacity:1;
+}
+.jumbotron{
+  background-color:rgb(235, 168, 141);
+  color:whitesmoke;
+  padding-top:150px;
+}
+.navbar-toggler-icon{
+  color:black;
+}
+.carousel .carousel-item {
+  height: 500px; 
+  background:black;
+}
+.carousel .carousel-item img{
+  opacity:0.4;
+}
+.carousel-caption{
+  display: block;
+}
+.footer{
+  height:50px;
+  background-color: black;
+  margin-top:30px;
+}
+.loginbtn{
+  background-color:rgba(255, 68, 0, 0.712);
+  color:white;
+}
+.loginModal .modal-header{
+  background-color:rgba(255, 68, 0, 0.712);
+  color:white;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
