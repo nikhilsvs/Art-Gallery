@@ -14,6 +14,7 @@ class Header extends Component{
         this.toggleNav = this.toggleNav.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
 
     }
     toggleNav(){
@@ -25,6 +26,10 @@ class Header extends Component{
         this.setState({
             isModalOpen:!this.state.isModalOpen
         });
+    }
+    handleLogout() {
+        this.props.logoutUser();
+
     }
     handleLogin(event)
     {
@@ -53,20 +58,45 @@ class Header extends Component{
                                     Exhibition
                                 </NavLink>
                             </NavItem>
+                             <NavItem>
+                                <NavLink className="nav-link" to="/galleries">
+                                    Galleries
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink className="nav-link" to="/paintings">
+                                    Paintings
+                                </NavLink>
+                            </NavItem>
                             
                         </Nav>
                         <Nav navbar className="ml-auto">
                             <NavItem>
                                 {!this.props.auth.isAuthenticated ? 
-                                    <Button onClick={this.toggleModal}>
+
+                                    <div>
+                                        <Button onClick={this.toggleModal}>
                                         Login
-                                    </Button>
+                                        </Button>
+                                        <Link className="btn btn-primary ml-2" to="/signup">
+                                            SignUp
+                                        </Link>
+                                    </div>
+                                    
+                               
                                     :
                                     <div>
                                         <div className="navbar-text mr-3">
-                                            {this.props.auth.user.username}
+                                            <NavItem nav>
+                                                <NavLink to={`/user/${this.props.auth.user.username}`} 
+                                                className="nav-link">
+                                                    {this.props.auth.user.username}
+                                                </NavLink>
+                                            </NavItem>
+                                            
+                                            
                                         </div>
-                                        <Button outline onClick = {this.handleLogout}>
+                                        <Button onClick={this.handleLogout} outline >
                                             Logout
                                         </Button>
                                     </div>
@@ -114,7 +144,7 @@ class Header extends Component{
                             <h3>Welcome To Your Online Painting Exhibition</h3>
                             <h4>Just have a tour and Take part in Auction</h4>
                         </div>
-                        <div classname="col-4">
+                        <div className="col-4">
                             <Link className="btn btn-outline btn-secondary" to="/menu">OnGoing Exhibition</Link>
                         </div>
 

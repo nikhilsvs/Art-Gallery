@@ -33,5 +33,21 @@
   background-color:rgba(255, 68, 0, 0.712);
   color:white;
 }
+.galleryItem{
+  border:1px solid grey;
+  border-radius:4px;
+}
+.btnvisit{
+  font-style: none;
+  text-decoration: none;
+  color:rgba(255, 68, 0, 0.712);
+  font-size:20px;
+  font-weight: bolder;
+  text-transform: none;
+}
+.btnvisit:hover{
+  text-decoration: none;
+  color:lightsalmon;
+}
 
 

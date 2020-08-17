@@ -1,5 +1,6 @@
 import {createStore,combineReducers,applyMiddleware} from 'redux';
 import {Paintings} from './paintings';
+import {Galleries} from './galleries';
 import {auth} from './auth';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
@@ -8,7 +9,8 @@ export const ConfigureStore = () =>{
     const store = createStore(
         combineReducers({
             paintings:Paintings,
-            auth:auth
+            auth:auth,
+            galleries:Galleries
         }),
         applyMiddleware(thunk,logger)
     );

@@ -1,5 +1,6 @@
 import React , {Component} from 'react';
-import {Card,CardBody,CardTitle,CardImg,CardText,Breadcrumb,BreadcrumbItem} from 'reactstrap';
+import {Card,CardBody,CardTitle,CardImg,CardText,Breadcrumb,BreadcrumbItem,
+Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {baseUrl} from '../baseUrl';
 
@@ -9,10 +10,10 @@ function RenderItem({x}){
             <CardImg  src={baseUrl + x.image}/>
             <CardBody>
                 <CardTitle>{x.name}</CardTitle>
-                <CardText>Author : {x.artist}</CardText>
+                <CardText>Author : {x.artist.username}</CardText>
                 <CardText>Rating : {x.rating}</CardText>
                 <CardText>Price : {x.price}</CardText>
-                <CardText>{x.description}</CardText>
+                <CardText>{x.desc}</CardText>
             </CardBody>
         </Card>
     );
@@ -25,7 +26,7 @@ const ItemDetail = (props) => {
             <div className="row">
                 <Breadcrumb>
                     <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
-                    <BreadcrumbItem><Link to="/menu">Exhibition</Link></BreadcrumbItem>
+                    <BreadcrumbItem><Link to="/paintings">Paintings</Link></BreadcrumbItem>
                     <BreadcrumbItem active>{props.item.name}</BreadcrumbItem>
                 </Breadcrumb>
                 <div className="col-12">
@@ -34,8 +35,20 @@ const ItemDetail = (props) => {
                   
                 </div>
                 <div className="col-4 m-1">
-                    <Link to={`/menu/${props.item._id}/buy`} 
-                    className="btn btn-outline btn-primary">BUY</Link>
+                    {
+                        !props.auth.isAuthenticated
+                        ?
+                        <Button type="text" block danger>
+                            Please Login to Buy this Painting
+                        </Button>
+                        
+                        :
+                        <Link to={`/menu/${props.item._id}/buy`} 
+                        className="btn btn-outline btn-primary">BUY</Link>
+                        
+
+                    }
+                    
                 </div>
             </div>
         </div>
