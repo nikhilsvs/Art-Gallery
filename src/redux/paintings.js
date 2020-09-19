@@ -15,6 +15,9 @@ export const Paintings = (state = {
         case ActionTypes.PAINT_FAILED:
             return {...state,isLoading:false,err:action.payload,paintings:[]}
         
+        case ActionTypes.ADD_NEW_PAINTING:
+            return {...state,isLoading:false,err:null,paintings:state.paintings.push(action.payload)}
+        
 
         default : return state;
     }

@@ -13,19 +13,28 @@ class Signup extends Component{
         alert("Username :" +  this.username.value +
                 "\nPassword : " + this.password.value);
         this.props.signupUser({username:this.username.value,
-                                password:this.password.value});
+                                password:this.password.value,
+                                firstname:this.firstname.value,
+                                lastname:this.lastname.value});
         event.preventDefault();
     }
 
     render(){
         return(
-            <div className="container">
+            <div className="container signUpComponent">
                 <div className="row">
-                   
-                        <Form className="col-md-6 offset-md-3" onSubmit={this.handleSubmit}>
+                   <div className="col-sm-6 text-center align-self-center singupleft">
+                       <div className="signUpOverlay text-center align-self-center">
+                            <h1>Welcome to ArtGallery</h1>
+                            <h2>Please Provide Essential Details for signUp</h2>
+                       </div>
+                        
+                   </div>
+                   <div className="col-sm-6 text-center align-self-center">
+                   <Form className="col-md-6 offset-md-3" onSubmit={this.handleSubmit}>
                             <FormGroup row>
                                 <Label htmlFor = "username">
-                                    Username    
+                                    <strong>Username </strong>    
                                 </Label>   
                                 <Input type="text" name="username" id="username"
                                     placeholder="username"
@@ -33,7 +42,8 @@ class Signup extends Component{
                             </FormGroup>    
                             <FormGroup row>
                                 <Label htmlFor = "firstname">
-                                    Firstname   
+                                    <strong>Firstname</strong>
+                                       
                                 </Label>   
                                 <Input type="text" name="firstname" id="firstname"
                                     placeholder="firstname"
@@ -41,7 +51,8 @@ class Signup extends Component{
                             </FormGroup>
                             <FormGroup row>
                                 <Label htmlFor = "lastname">
-                                    Lastname   
+                                    <strong>Lastname</strong>
+                                       
                                 </Label>   
                                 <Input type="text" name="lastname" id="lastname"
                                     placeholder="lastname"
@@ -49,7 +60,8 @@ class Signup extends Component{
                             </FormGroup>
                             <FormGroup row>
                                 <Label htmlFor = "password">
-                                    Password   
+                                    <strong>Password</strong>
+                                       
                                 </Label>   
                                 <Input type="password" name="password" id="password"
                                     placeholder="password"
@@ -61,9 +73,8 @@ class Signup extends Component{
                                 </Button> 
                             </FormGroup>
                         </Form> 
+                   </div>
                     
-                        
-                   
                 </div>
             </div>
         )

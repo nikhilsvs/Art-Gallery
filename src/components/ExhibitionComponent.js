@@ -1,30 +1,20 @@
 import React , {Component}  from 'react';
 import {Breadcrumb,BreadcrumbItem,Card,CardImg,CardImgOverlay,CardTitle,
-CardBody,Button} from 'reactstrap';
+CardBody,Button,Media,MediaBody,CardHeader} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {baseUrl} from '../baseUrl';
 
 function RenderItem({item}){
     return(
-        <Card>
-            <CardImg  src={baseUrl + item.image}/>
-                
-            <CardImgOverlay>
-                    <CardTitle>{item.name}</CardTitle>
-            </CardImgOverlay>
-            <CardBody>
-                <div className="row">
-                    <div className="col-6">
-                        <CardTitle>{item.name}</CardTitle>
-                    </div>
-                    <div className="col-6">
-                        <Link to={`/menu/${item._id}`} className="btn btn-outline
-                                btn-success">Have a Look</Link>
-                    </div>
-                </div>
-                
-            </CardBody>
-        </Card>
+        <Media>
+            <Media left>
+                <Media><strong>{item.name}</strong></Media>
+                <Media><strong>Starts on : {item.Date}</strong></Media>
+            </Media>
+            <Media className="ml-auto">
+                <Link to={`/menu/${item._id}`} className="btn btn-dark">Enter <span className="fa fa-arrow-right"/> </Link>
+            </Media>
+        </Media>
     );
 }
 
@@ -36,10 +26,12 @@ class Exhibition extends Component{
     
 
     render(){
-        const collection = this.props.paintings.map((x)=>{
+        const collection = this.props.exhibitions.map((x)=>{
             return(
-                <div className = "col-12 col-md-4 mb-1 mt-1">
+                <div className = "col-12 col-md-8 offset-md-2">
                     <RenderItem item={x}/>
+
+                    <hr className="divider"></hr>
                 </div>
             )
         })
@@ -53,7 +45,18 @@ class Exhibition extends Component{
                 </div>
             
                 <div className = "row">
-                    {collection}
+                    <div className="col-8 offset-2">
+                        <Card>
+                            <CardHeader className="text-center">
+                                <strong>Exhibitions</strong>
+                            </CardHeader>
+                            <CardBody>
+                                {collection}
+                            </CardBody>
+                        </Card>
+                    
+                    </div>
+                    
                 </div>
             
             </div>

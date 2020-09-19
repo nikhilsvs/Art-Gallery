@@ -175,19 +175,23 @@ export const fetchGallery = (dispatch) => (dispatch)=>{
     .then((items)=>dispatch(addGallery(items)))
     .catch((error)=>dispatch(galleryFailed(error.message)))
 }
-export const addGallery = (newGallery)=>({
+export const addNewGallery = (newGallery)=>({
     type:ActionTypes.ADD_NEW_GALLERY,
     payload:newGallery
 })
-export const postGallery = (items) => (dispatch)=>{
-    fetch(baseUrl + 'gallery',{
+export const addGalleryFailed =  (errmess) =>{
+    alert("Error in Adding New Gallery : " + errmess);
+}
+export const postGallery = (creds) => (dispatch)=>{
+    return fetch(baseUrl + 'gallery',{
         method:'POST',
         headers:{
             'Origin':'http://localhost:3000',
             'Content-Type':'application/json',
-            'Authorization':'Bearer '+localStorage.getItem('token')
+            'Authorization':'Bearer '+ localStorage.getItem('token')
         },
-        body:JSON.stringify(items)
+        credentials: "same-origin",
+        body:JSON.stringify(creds)
     })
     .then((response)=>{
         if(response.ok){
@@ -196,12 +200,84 @@ export const postGallery = (items) => (dispatch)=>{
         else{
             var err = new Error('Error ' + response.status + response.statusText);
             err.response = response;
+            throw err;
         }
-    },error=> {
-        var errmess = new Error(error.message);
-        throw errmess;
+    },error => {
+        throw(error);
     })
     .then((response)=>response.json())
-    .then((newGallery) => dispatch(addGallery(newGallery)))
-    .catch((error)=>dispatch(addGalleryFailed(error.message)))
+    .then((newGallery) => dispatch(addNewGallery(newGallery)))
+    //.catch((error)=>addGalleryFailed(error.message))
+}
+export const addNewPainting = (item) => ({
+    type:ActionTypes.ADD_NEW_PAINTING,
+    payload:item
+})
+export const postPainting = (creds,Gid)=>(dispatch)=>{
+
+    fetch(baseUrl + `gallery/${Gid}/paintings`,{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Origin':'http://localhost:3000',
+            'Authorization':'Bearer '+localStorage.getItem('token')
+        },
+        credentials:'same-origin',
+        body:JSON.stringify(creds)
+    })
+    .get((response)=>{
+        if(response.ok){
+            return response;
+        }
+        else{
+            var err = new Error("Error " + response.status + response.statusText);
+            err.response = response;
+            throw err;
+        }
+    },error => {
+        throw error;
+    })
+    .then((response)=>response.json())
+    .then((painting) => dispatch(addNewPainting(painting)))
+    .catch((err) => alert(err.message))
+
+}
+export const exhibitionsLoading = () =>({
+    type:ActionTypes.EXHIBITIONS_LOADING
+})
+export const addExhibitions = (exhibitions) => ({
+    type:ActionTypes.ADD_EXHIBITIONS,
+    payload:exhibitions
+})
+export const exhibitionsFailed = (mess)=>({
+    type:ActionTypes.EXHIBITIONS_FAILED,
+    payload:mess
+})
+export const fetchExhibitions = () => (dispatch)=>{
+
+    dispatch(exhibitionsLoading(true));
+
+    fetch(baseUrl + "exhibitions",{
+        method:'GET',
+        headers:{
+            'Authorization':'Bearer '+localStorage.getItem('token'),
+            'Content-Type':'application/json'
+        }
+    })
+    .then((response)=>{
+        if(response.ok){
+            return response;
+        }
+        else{
+            var err = new Error("Error Occured :" + response.status + response.text );
+            err.response = response;
+            throw err;
+        }
+    },(error) =>{
+        throw error;
+    })
+    .then((response)=>response.json())
+    .then((exhibitions)=>dispatch(addExhibitions(exhibitions)))
+    .catch((error)=>dispatch(exhibitionsFailed(error.message)))
+
 }

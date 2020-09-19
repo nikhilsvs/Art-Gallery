@@ -36,7 +36,8 @@ class User extends Component{
             isModalOpen : false   
         }
         this.toggleModal = this.toggleModal.bind(this);
-        this.handleUpload = this.handleUpload.bind(this);
+       
+        this.handleGallerySubmit = this.handleGallerySubmit.bind(this);
     }
 
     toggleModal(){
@@ -44,30 +45,16 @@ class User extends Component{
             isModalOpen:!this.state.isModalOpen
         })
     }
+    handleGallerySubmit(event){
 
-    handleUpload(event)
-    {
-        alert("You have Selected : "+ event.target.files[0].name);
-        var formData = new FormData();
-        formData.append('imageFile',event.target.files[0]);
-        fetch(baseUrl + 'imageupload',{
-            method:'POST',
-            headers:{
-                'Origin':'http://localhost:3000',
-                'Authorization':'Bearer ' + this.props.auth.token
-            },
-            credentials: "same-origin",
-            body:formData
-        })
-        .then((response)=>response.json())
-        .then((data)=>{
-            alert("Your File has Been Uploaded" + 
-                 "\n" + 
-                 data)
-        })
-        .catch((error)=>console.log(error))
+        this.toggleModal();        
+        alert("Name : " + this.name.value);
+        
+        this.props.postGallery({name:this.name.value});
+
         event.preventDefault();
     }
+  
     render(){
         return (
             <>
@@ -103,16 +90,10 @@ class User extends Component{
                                         </CardText>
                                         </div>
                                     </div>
-                                    <div className="row mt-4">
-                                        <div className="col-4 col-md-6">
-                                        <button type="button" class="btn btn-outline-dark">
-                                            Make your own gallery
-                                        </button>
-                                        </div>
-                                    </div>
+                                    
                                     
                                 </div>
-                                <div className="contianer">
+                                <div className="contianer mt-10">
                                     
                                     <div className="row">
                                         <div className="col-10 offset-1 text-center align-self-center">
@@ -135,22 +116,7 @@ class User extends Component{
                                     <RenderGalleries items={this.props.galleries} auth={this.props.auth}/>
                                     
                                 </div>
-                                <div className="container">
-                                    <div className="row">
-                                        <Form onSubmit={this.handlesubmit}>
-                                            <FormGroup row>
-                                                <Label htmlFor="imageFile">Upload Your Painting</Label>
-                                                <Input type="file" name="imageFile" id="imageFile"
-                                                onChange={this.handleUpload}
-                                                innerRef={(input)=>this.imageFile = input}/>
-                                            </FormGroup>
-                                            <FormGroup row>
-                                                <Input type="submit" 
-                                                value = "submit" onSubmit={this.handlesubmit} className="btn btn-outline-dark"/>
-                                            </FormGroup>
-                                        </Form>
-                                    </div>
-                                </div>
+                                
                             </CardBody>
                         </Card>
                         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
@@ -160,18 +126,19 @@ class User extends Component{
                             </ModalHeader>
                             <div className="container">
                             <ModalBody>
-                                <Form>
+                                <Form onSubmit={this.handleGallerySubmit}>
                                     <FormGroup row>
                                         <Label htmlFor="name">
                                             <strong>Name</strong>
                                         </Label>
-                                        <Input type="text" name="name" id="name" placeholder="Name Of Your New Gallery"/>
+                                        <Input type="text" name="name" id="name" placeholder="Name Of Your New Gallery"
+                                            innerRef={(input)=> this.name = input}/>
 
                                     </FormGroup>
                     
                                     <FormGroup row>
-                                        <Input type="submit" className="btn btn-block btn-dark"/>
-                                        
+                                        <button type="submit" value="submit" 
+                                        onSubmit={this.handleGallerySubmit} className="btn loginbtn btn-lg btn-block">Submit</button>
                                     </FormGroup>
                                 </Form>
                             </ModalBody>

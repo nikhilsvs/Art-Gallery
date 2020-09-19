@@ -1,5 +1,5 @@
 import React , {Component} from 'react';
-import {Media,Card,CardHeader,CardBody} from 'reactstrap'
+import {Media,Card,CardHeader,CardBody,Breadcrumb,BreadcrumbItem} from 'reactstrap'
 import {Link} from 'react-router-dom';
 
 function RenderGalleries({items}){
@@ -34,9 +34,27 @@ class Galleries extends Component{
 
        
         return(
+            <>
+            
             <div className="container">
-                <RenderGalleries items={this.props.items} />
+                <div className="row">
+                    <Breadcrumb>
+                            <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
+                            <BreadcrumbItem active>Galleries</BreadcrumbItem>
+                    </Breadcrumb>
+                </div>
+                <div className="row">
+                    <div className="col-md-9 offset-md-1 align-self-center text-center">
+                        <Card className="GalleryHead">
+                            <CardHeader><strong>Galleries</strong></CardHeader>
+                        </Card>
+                    </div>
+                    
+                    <RenderGalleries items={this.props.items} />
+                </div>
+                
             </div>
+            </>
         )
     }
 }

@@ -17,7 +17,7 @@ export const Galleries = (state={
             return {...state,isLoading:false,galleries:[],err:action.errmess};
 
         case ActionTypes.ADD_NEW_GALLERY:
-            return {...state,isLoading:false,galleries:this.state.galleries.push(action.payload),err:null}
+            return {...state,isLoading:false,galleries:state.galleries.push(action.payload),err:null}
 
         default:
             return state;

@@ -1,6 +1,6 @@
 .navbar-dark{
   background-color:rgba(255, 68, 0, 0.712);
-  opacity:1;
+  opacity:2;
 }
 .jumbotron{
   background-color:rgb(235, 168, 141);
@@ -48,6 +48,28 @@
 .btnvisit:hover{
   text-decoration: none;
   color:lightsalmon;
+}
+.GalleryHead{
+ font-size:20px;
+
+}
+.singupleft{
+  background-image: url("/assets/images/singup_overlay.png");
+  background-repeat: no-repeat;
+  height:500px;
+  margin:0px;
+}
+.signUpComponent .signUpOverlay{
+  height:500px;
+  font-style: italic;
+  background-color:rgb(0.31,0.31,0.31);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width:100%;
+  opacity:0.8;
+  color:white;
 }
 
 

@@ -9,17 +9,19 @@ import Signup from './signupComponent';
 import Galleries from './GalleriesComponent';
 import Paintings from './paintingComponent';
 import GalleryDetail from './GalleryDetailComponent';
+import ExhibitionDetail from './ExhibitionDetailComponent';
 import User from './userComponent';
 import {connect} from 'react-redux';
 import {fetchPaintings,loginUser,logoutUser,signupUser,fetchGallery
-        ,postGallery} from '../redux/ActionCreators';
+        ,postGallery,postPainting,fetchExhibitions} from '../redux/ActionCreators';
 import ItemDetail from './PaintingDetail';
 
 const mapStateToProps = state =>{
     return {
         paintings : state.paintings,
         auth : state.auth,
-        galleries:state.galleries
+        galleries:state.galleries,
+        exhibitions:state.exhibitions
     }
 }
 
@@ -29,7 +31,9 @@ const mapDispatchToProps = (dispatch) =>({
     logoutUser : () => {dispatch(logoutUser())},
     signupUser : (creds) =>{dispatch(signupUser(creds))},
     fetchGallery:()=>{dispatch(fetchGallery())},
-    postGallery : ()=>{dispatch(postGallery(newGallery))}
+    postGallery : (creds)=>{dispatch(postGallery(creds))},
+    postPainting:(creds,Gid)=>{dispatch(postPainting(creds,Gid))},
+    fetchExhibitions : () => {dispatch(fetchExhibitions())}
 })
 
 class Main extends Component{
@@ -40,10 +44,8 @@ class Main extends Component{
     componentDidMount(){
         this.props.fetchPaintings();
         this.props.fetchGallery();
+        this.props.fetchExhibitions();
     }
-
-    
-
     render()
     {
 
@@ -74,7 +76,8 @@ class Main extends Component{
         const GalleryWithId = ({match})=>{
             return(
                 <GalleryDetail gallery = {this.props.galleries.galleries.filter((x)=>x.name === match.params.Gname)[0]}
-                auth = {this.props.auth}/>
+                auth = {this.props.auth}
+                postPainting={this.props.postPainting}/>
             )
         }
         const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -87,7 +90,20 @@ class Main extends Component{
                   }} />
             )} />
           );
-
+        const ExhibitionWithId =({match})=>{
+            return(
+                <ExhibitionDetail exhibition = 
+                {this.props.exhibitions.exhibitions.filter((x)=>x._id === match.params.eid)[0]}/>
+            )
+        }
+        const displayUserId = () =>{
+            return(
+                <User auth={this.props.auth} 
+                galleries = {this.props.galleries.galleries.filter((x)=>x.user.username === this.props.auth.user.username)}
+                auth={this.props.auth}
+                postGallery = {this.props.postGallery}/>
+            );
+        }
         return(
             <div>
                 <Header loginUser = {this.props.loginUser}
@@ -97,10 +113,7 @@ class Main extends Component{
                     
                     
                     <Route path="/home" component={Home} />
-                    <Route exact path="/user/:username" component = {()=> <User auth={this.props.auth} 
-                                                        galleries = {this.props.galleries.galleries.filter((x)=>x.user.username === this.props.auth.user.username)}/>}
-                                                        auth={this.props.auth}
-                                                        postGallery = {this.props.postGallery}/>
+                    <Route exact path="/user/:username" component = {displayUserId}/>
                     <Route path="/galleries/:Gname" component = {GalleryWithId}/>
                     <Route path="/user/:username/:Gname" component = {GalleryWithId}/>
                     <Route path="/signup" component = {registeruser}/>
@@ -108,7 +121,8 @@ class Main extends Component{
                     
                     <Route exact path="/paintings" component ={displayPaintings}/>
                     <Route exact path = "/paintings/:PaintingId" component={ItemWithId}/>
-                    <Route exact path="/menu" component={()=><Exhibition paintings={this.props.paintings.paintings}/>} /> 
+                    <Route exact path="/menu" component={()=><Exhibition exhibitions={this.props.exhibitions.exhibitions}/>} />
+                    <Route path = "/menu/:eid" component = {ExhibitionWithId}/> 
                     <PrivateRoute exact path = "/menu/:PaintingId/buy" component={Buy}/>
                     <Redirect to="/home"/> 
                 </Switch>

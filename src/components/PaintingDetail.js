@@ -34,7 +34,7 @@ const ItemDetail = (props) => {
                     <RenderItem x={props.item}/>
                   
                 </div>
-                <div className="col-4 m-1">
+                <div className="col-12 col-md-4 m-1">
                     {
                         !props.auth.isAuthenticated
                         ?
